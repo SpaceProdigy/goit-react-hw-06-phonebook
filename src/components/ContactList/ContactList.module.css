@@ -1,0 +1,22 @@
+.wrapper {
+    width: 300px;
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between
+}
+
+.box {
+    display: flex;
+}
+
+.btn:hover {
+    color: rgb(231, 52, 52);
+}
+
+.icon {
+    color: rgba(0, 0, 0, 0.54);
+    margin: 5px;
+
+
+}
