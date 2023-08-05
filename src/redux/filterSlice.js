@@ -17,7 +17,7 @@ const filterSlice = createSlice({
 const persistConfigFilter = {
   key: 'filter',
   storage,
-  whitelist: ['filter'],
+  whitelist: ['filterText'],
 };
 
 export const filterReducer = persistReducer(

@@ -9,6 +9,7 @@ import { getFilter } from 'redux/selectors';
 export default function Filter() {
   const dispatch = useDispatch();
   const filterText = useSelector(getFilter);
+  console.log(filterText);
   const handleFilter = e => {
     const normalizedFilter = e.target.value.toLowerCase();
     dispatch(setFilter(normalizedFilter));
