@@ -1,13 +1,14 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
-import { setFilter } from 'redux/contactsSlice';
+import { setFilter } from 'redux/filterSlice';
+import { getFilter } from 'redux/selectors';
 
 export default function Filter() {
   const dispatch = useDispatch();
-
+  const filterText = useSelector(getFilter);
   const handleFilter = e => {
     const normalizedFilter = e.target.value.toLowerCase();
     dispatch(setFilter(normalizedFilter));
@@ -26,6 +27,7 @@ export default function Filter() {
             label="Name"
             variant="standard"
             autoComplete="none"
+            value={filterText}
           />
         </Box>
       </Box>

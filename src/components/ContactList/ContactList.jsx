@@ -7,12 +7,13 @@ import css from './ContactList.module.css';
 import PersonIcon from '@mui/icons-material/Person';
 import { useSelector } from 'react-redux';
 import { deleteContact } from 'redux/contactsSlice';
+import { getContacts, getFilter } from 'redux/selectors';
 
 export default function ContactList() {
-  const contacts = useSelector(state => state.contacts);
-  const filterText = useSelector(state => state.filterText);
-
+  const contacts = useSelector(getContacts);
+  const filterText = useSelector(getFilter);
   const dispatch = useDispatch();
+
   const handleDelete = e => dispatch(deleteContact(e.currentTarget.id));
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().trim().includes(filterText.toLowerCase().trim())

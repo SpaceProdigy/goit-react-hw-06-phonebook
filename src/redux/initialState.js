@@ -1,4 +1,4 @@
-export const initialState = {
+export const stateContacts = {
   contacts: [
     {
       id: 'id-1',
@@ -25,5 +25,8 @@ export const initialState = {
       completed: false,
     },
   ],
+};
+
+export const stateFilter = {
   filterText: '',
 };

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import Box from '@mui/material/Box';
 import { useForm } from 'react-hook-form';
@@ -9,9 +8,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import BasicButtons from 'components/BasicButtons/BasicButtons';
 import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import css from './ContactForm.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
-import { Alert, Snackbar } from '@mui/material';
+import { AlertContacts } from 'components/Alert/Alert';
+import { useState } from 'react';
+import { getContacts } from 'redux/selectors';
 
 const schema = object({
   name: string()
@@ -32,8 +33,15 @@ const schema = object({
 });
 
 export default function ContactForm() {
-  const [alert, setAlert] = useState(false);
+  const contacts = useSelector(getContacts);
+  const [alertSuccess, setAlertSuccess] = useState(false);
+  const [alertError, setAlertError] = useState(false);
   const dispatch = useDispatch();
+
+  const handleClose = () => {
+    setAlertSuccess(false);
+    setAlertError(false);
+  };
 
   const {
     register,
@@ -44,13 +52,12 @@ export default function ContactForm() {
     resolver: yupResolver(schema),
   });
   const onSubmit = data => {
+    if (contacts.some(contact => contact.name === data.name)) {
+      return setAlertError(true);
+    }
     dispatch(addContact({ id: nanoid(), ...data }));
     reset();
-    setAlert(true);
-  };
-
-  const handleClose = () => {
-    setAlert(false);
+    setAlertSuccess(true);
   };
 
   return (
@@ -95,16 +102,11 @@ export default function ContactForm() {
         </Box>
       </form>
 
-      <Snackbar
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        onClose={handleClose}
-        open={alert}
-        autoHideDuration={3000}
-      >
-        <Alert onClose={handleClose} severity="success">
-          Add contact success.
-        </Alert>
-      </Snackbar>
+      <AlertContacts
+        success={alertSuccess}
+        error={alertError}
+        handleClose={handleClose}
+      />
     </>
   );
 }
